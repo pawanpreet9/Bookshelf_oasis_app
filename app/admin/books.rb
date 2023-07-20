@@ -57,7 +57,7 @@ ActiveAdmin.register Book do
       row :pages
       row :price
       row :publisher
-      row :publlication_date
+      row :publication_date
       row :author
       row :genres
       row :image do |i|

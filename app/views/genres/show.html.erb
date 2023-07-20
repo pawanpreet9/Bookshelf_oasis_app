@@ -1,0 +1,21 @@
+
+<h1><%= @genre.name %> Genre</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @books.each do |book| %>
+      <tr>
+        <td><%= link_to book.title, book_path(book) %></td>
+        <td><%= book.author.name %></td>
+        <td><%= number_to_currency(book.price) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
