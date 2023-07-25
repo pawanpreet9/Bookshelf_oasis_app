@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_25_195411) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_25_204936) do
   create_table "abouts", force: :cascade do |t|
     t.string "title"
     t.text "content"
@@ -145,7 +145,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_25_195411) do
     t.string "email"
     t.string "encrypted_password", default: "", null: false
     t.datetime "remember_created_at"
+    t.integer "province_id", null: false
+    t.string "city"
+    t.string "postal_code"
     t.index ["encrypted_password"], name: "index_customers_on_encrypted_password", unique: true
+    t.index ["province_id"], name: "index_customers_on_province_id"
   end
 
   create_table "genres", force: :cascade do |t|
@@ -174,12 +178,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_25_195411) do
     t.index ["customer_id"], name: "index_orders_on_customer_id"
   end
 
+  create_table "provinces", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "books", "authors"
   add_foreign_key "cart_items", "books"
   add_foreign_key "cart_items", "carts"
   add_foreign_key "cart_items", "customers"
+  add_foreign_key "customers", "provinces"
   add_foreign_key "order_line_items", "books"
   add_foreign_key "orders", "customers"
 end
