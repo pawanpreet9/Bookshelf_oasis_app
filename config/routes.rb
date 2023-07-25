@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
   root to: 'home#index'
+
   get 'books_on_sale', to: 'books#books_on_sale'
   get 'recently_updated_books', to: 'books#recently_updated_books'
   get 'new_books', to: 'books#new_books'
@@ -29,5 +30,11 @@ Rails.application.routes.draw do
     registrations: 'customers/registrations',
     sessions: 'customers/sessions'
   }
+  devise_scope :customer do
+    get 'customers/profile', to: 'customers/registrations#show', as: :customer_profile
+    patch 'customers/add_address', to: 'customers/registrations#add_address', as: :customer_add_address
+  end
+
+
 
 end

@@ -11,8 +11,11 @@ class Customers::RegistrationsController < Devise::RegistrationsController
   def new
     @customer = Customer.new
   end
+  def show
+    @customer = current_customer
+  end
   def customer_params
-    params.require(:customer).permit(:name, :email, :password, :password_confirmation, :province_id, :address )
+    params.require(:customer).permit(:email, :password, :password_confirmation, :province_id, :address )
   end
   protected
 
@@ -29,12 +32,25 @@ class Customers::RegistrationsController < Devise::RegistrationsController
   private
 
   def sign_up_params
-    params.require(:customer).permit(:name, :email, :password, :password_confirmation, :province_id, :address, :city, :postal_code)
+    params.require(:customer).permit( :email, :password, :password_confirmation, :province_id, :address, :city, :postal_code)
   end
 
   def account_update_params
-    params.require(:customer).permit(:name, :email, :password, :password_confirmation, :current_password, :province_id, :address, :city, :postal_code)
+    params.require(:customer).permit( :email, :password, :password_confirmation, :current_password, :province_id, :address, :city, :postal_code)
   end
+
+  def add_address
+    current_customer.update(customer_params)
+    redirect_to customer_profile_path, notice: 'Address added/updated successfully.'
+  end
+
+  private
+
+  def customer_param
+    params.require(:customer).permit(:address, :city, :province,:postal_code)
+  end
+
+
 
   # POST /resource
   # def create
