@@ -1,12 +1,13 @@
 class CartItemsController < ApplicationController
   before_action :authenticate_customer!, except: [:index, :show]
   def index
-    @cart_items = current_cart.cart_items # Assuming you have a method to get the current cart and its items
+    @cart_items = customer_signed_in? ? current_customer.cart_items : current_cart.cart_items
   end
   def create
     book = Book.find(params[:book_id])
     @cart = current_cart
     @cart_item = @cart.cart_items.find_or_initialize_by(book_id: book.id)
+    @cart_item.customer = current_customer
 
     if @cart_item.new_record?
       @cart_item.quantity = 1

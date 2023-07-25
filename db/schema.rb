@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_24_223114) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_25_195411) do
   create_table "abouts", force: :cascade do |t|
     t.string "title"
     t.text "content"
@@ -119,8 +119,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_24_223114) do
     t.integer "quantity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "customer_id", null: false
     t.index ["book_id"], name: "index_cart_items_on_book_id"
     t.index ["cart_id"], name: "index_cart_items_on_cart_id"
+    t.index ["customer_id"], name: "index_cart_items_on_customer_id"
   end
 
   create_table "carts", force: :cascade do |t|
@@ -142,6 +144,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_24_223114) do
     t.datetime "updated_at", null: false
     t.string "email"
     t.string "encrypted_password", default: "", null: false
+    t.datetime "remember_created_at"
     t.index ["encrypted_password"], name: "index_customers_on_encrypted_password", unique: true
   end
 
@@ -176,6 +179,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_24_223114) do
   add_foreign_key "books", "authors"
   add_foreign_key "cart_items", "books"
   add_foreign_key "cart_items", "carts"
+  add_foreign_key "cart_items", "customers"
   add_foreign_key "order_line_items", "books"
   add_foreign_key "orders", "customers"
 end
