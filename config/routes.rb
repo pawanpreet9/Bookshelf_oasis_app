@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get 'about', to: 'about#show'
   get 'shopping_cart', to: 'cart_items#index'
   post 'shopping_cart', to: 'cart_items#create', as: 'add_to_cart'
+
   resources :cart_items, only: [:create, :update, :destroy]
   resources :books, only: [:index, :show]
   resources :genres, only: [:index, :show]

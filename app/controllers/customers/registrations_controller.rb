@@ -12,18 +12,18 @@ class Customers::RegistrationsController < Devise::RegistrationsController
     @customer = Customer.new
   end
   def customer_params
-    params.require(:customer).permit(:name, :email, :password, :password_confirmation, :province_id, :address)
+    params.require(:customer).permit(:name, :email, :password, :password_confirmation, :province_id, :address )
   end
   protected
 
   def after_sign_up_path_for(resource)
-    # Redirect the user to their profile page after sign-up
-    customer_path(resource)
+
+    root_path
   end
 
   def after_update_path_for(resource)
-    # Redirect the user to their profile page after account update
-    customer_path(resource)
+
+    root_path
   end
 
   private
