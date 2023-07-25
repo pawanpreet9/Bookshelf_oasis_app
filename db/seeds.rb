@@ -61,7 +61,7 @@ genre_ids = Genre.pluck(:id).sample(rand(1..3))
 genres = Genre.where(id: genre_ids)
 book.genres << genres
 
-  book.image.attach(io: URI.open(Faker::LoremFlickr.image(size: "300x400")), filename: "#{book.title.parameterize}.jpg")
+  book.image.attach(io: URI.open(Faker::LoremFlickr.image(size: "200x300", search_terms: ['book'])), filename: "#{book.title.parameterize}.jpg")
 
   if  book.save
 

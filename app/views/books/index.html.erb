@@ -1,11 +1,22 @@
+<h4>Filter the books:<%= link_to 'Books on Sale', books_on_sale_path %> :: <%= link_to 'New Books', new_books_path %> ::  <%= link_to 'Updated_books', recently_updated_books_path %></h4>
+<%= form_with(url: books_path, method: :get) do |f| %>
+  <%= f.label :keyword, 'Keyword:' %>
+  <%= f.text_field :keyword, placeholder: 'Enter keyword...' %>
+<br>
+ <%= f.label :genre_id, 'Genre:' %>
+  <%= f.select :genre_id, options_for_select([['All Genres', nil]] + Genre.all.map { |genre| [genre.name, genre.id] }, params[:genre_id]), {}, class: 'genre-select' %>
 
+  <%= f.submit 'Search' %>
+<% end %>
 <h1>All Books</h1>
 <%= paginate @books %>
 <table>
   <thead>
     <tr>
       <th>Title</th>
+      <th>Author</th>
       <th>Quantity</th>
+      <th>Price</th>
 
     </tr>
   </thead>
@@ -14,9 +25,17 @@
       <tr>
         <td><%= link_to book.title, book_path(book) %></td>
 
+       <td><%= book.author.name %></td>
         <td><%= book.quantity %></td>
+         <td><%= book.price %></td>
+
 
       </tr>
     <% end %>
+
   </tbody>
 </table>
+
+
+
+

@@ -1,0 +1,9 @@
+
+<h2>Recently Updated Books</h2>
+<%= paginate @recently_updated_books %>
+<ul>
+  <% @recently_updated_books.each do |book| %>
+    <li><%= book.title %></li>
+  <% end %>
+</ul>
+<h4><%= link_to 'Go to all books', books_path %></h4>

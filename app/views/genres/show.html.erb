@@ -1,4 +1,10 @@
-
+<select onchange="redirectToGenre(this)">
+  <option value="">Select Genre</option>
+  <% @genres.each do |genre| %>
+    <option value="<%= genre_path(genre) %>"><%= genre.name %></option>
+  <% end %>
+</select>
+<h4><%= link_to ' All Genres', genres_path %></h4>
 <h1><%= @genre.name %> Genre</h1>
 
 <table>
@@ -19,3 +25,11 @@
     <% end %>
   </tbody>
 </table>
+<script>
+  function redirectToGenre(select) {
+    var selectedGenre = select.value;
+    if (selectedGenre) {
+      window.location.href = selectedGenre;
+    }
+  }
+</script>

@@ -1,0 +1,26 @@
+
+ <h2>Books On Sale: </h2>
+<%= paginate @books_on_sale %>
+<table>
+<thead>
+    <tr>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Quantity</th>
+      <th>Price</th>
+
+    </tr>
+  </thead>
+  <tbody>
+  <% @books_on_sale.each do |book| %>
+   <tr>
+        <td><%= link_to book.title, book_path(book) %></td>
+<td><%= book.author.name %></td>
+        <td><%= book.quantity %></td>
+        <td><%= book.price %></td>
+
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+<h4><%= link_to 'Go to all books', books_path %></h4>

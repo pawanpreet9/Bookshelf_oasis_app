@@ -1,0 +1,19 @@
+<h1>Shopping Cart</h1>
+<% if customer_signed_in? %>
+  <ul>
+    <% @cart_items.each do |item| %>
+
+      <li>
+        <%= item.book.title %>
+         <%= button_to "+", cart_item_path(item, quantity: item.quantity + 1), method: :patch %>(Quantity: <%= item.quantity %>)
+
+        <%= button_to "-", cart_item_path(item, quantity: item.quantity - 1), method: :patch %>
+        <%= button_to "Remove", cart_item_path(item), method: :delete %>
+      </li>
+    <% end %>
+  </ul>
+
+
+<% else %>
+  <p>Please log in to view your shopping cart.</p>
+<% end %>

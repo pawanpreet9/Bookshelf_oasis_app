@@ -5,6 +5,8 @@ class Book < ApplicationRecord
 
   has_one_attached :image
 
+  has_many :cart_items
+
   def self.ransackable_attributes(auth_object = nil)
     ["author_id", "created_at", "description", "id", "image", "pages", "price", "publication_date", "publisher", "quantity", "title", "updated_at"]
   end

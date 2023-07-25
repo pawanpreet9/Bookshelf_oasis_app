@@ -1,0 +1,27 @@
+
+<h2>New Books</h2>
+<%= paginate @new_books %>
+<table>
+<thead>
+    <tr>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Quantity</th>
+      <th>Price</th>
+
+    </tr>
+  </thead>
+  <tbody>
+
+  <% @new_books.each do |book| %>
+    <tr>
+        <td><%= link_to book.title, book_path(book) %></td>
+<td><%= book.author.name %></td>
+        <td><%= book.quantity %></td>
+        <td><%= book.price %></td>
+
+      </tr>
+  <% end %>
+ </tbody>
+</table>
+<h4><%= link_to 'Go to all books', books_path %></h4>

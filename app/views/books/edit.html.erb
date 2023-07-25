@@ -1,0 +1,41 @@
+<h1>Edit Book</h1>
+
+<%= form_with(model: @book, url: book_path(@book), method: :patch, local: true, multipart: true) do |form| %>
+  <%= form.label :title %>
+  <%= form.text_field :title %>
+
+  <%= form.label :description %>
+  <%= form.text_area :description %>
+
+  <%= form.label :quantity %>
+  <%= form.number_field :quantity %>
+
+  <%= form.label :pages %>
+  <%= form.number_field :pages %>
+
+  <%= form.label :price %>
+  <%= form.text_field :price %>
+
+  <%= form.label :publisher %>
+  <%= form.text_field :publisher %>
+
+  <%= form.label :publication_date %>
+  <%= form.date_select :publication_date %>
+
+  <%= form.label :author_id %>
+  <%= form.collection_select :author_id, Author.all, :id, :name %>
+
+  <%= form.label :genre_id %>
+  <%= form.collection_select :genre_id, Genre.all, :id, :name %>
+
+  <% if @book.image.attached? %>
+    <p>Current Image:</p>
+    <%= image_tag @book.image %>
+  <% end %>
+
+  <%= form.label :image %>
+  <%= form.file_field :image %>
+
+  <%= form.submit 'Update Book' %>
+<% end %>
+``
