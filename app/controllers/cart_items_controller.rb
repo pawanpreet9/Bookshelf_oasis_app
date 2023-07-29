@@ -3,17 +3,19 @@ class CartItemsController < ApplicationController
     cart_items = session[:cart_items] || []
     @cart_items = cart_items.map do |item|
       book = Book.find_by(id: item['book_id'])
-      item.merge(book_title: book&.title)
+      item.merge(book_title: book&.title, book_price: book&.price)
+
     end
+    @total_price = calculate_total_price
   end
 
   def create
     book = Book.find(params[:book_id])
     @cart_items = session[:cart_items] || []
     @cart_item = @cart_items.find { |item| item['book_id'] == book.id }
-
+    book_price = book.price.to_f
     if @cart_item.nil?
-      @cart_items << { 'book_id' => book.id, 'quantity' => 1 , book_title: book.title }
+      @cart_items << { 'book_id' => book.id, 'quantity' => 1 , book_title: book.title,book_price: book.price  }
     else
       @cart_item['quantity'] += 1
     end
@@ -45,6 +47,16 @@ class CartItemsController < ApplicationController
     session[:cart_items] = @cart_items
     redirect_to cart_items_path, notice: 'Book removed from cart.'
   end
+   def calculate_total_price
+    total_price = 0.0
+    @cart_items.each do |item|
+      book_price = BigDecimal(item['book_price'].to_s)  # Convert to BigDecimal for precise calculations
+      quantity = item['quantity'].to_i
+      total_price += (book_price * quantity)
+    end
+    total_price
+  end
+
   private
 
   def cart_item_params

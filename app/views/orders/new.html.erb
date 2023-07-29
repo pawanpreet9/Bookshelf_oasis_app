@@ -1,0 +1,42 @@
+<!-- app/views/orders/new.html.erb (or your checkout form view) -->
+<%= form_with(model: @order) do |form| %>
+  <!-- Your other form fields for the order (if any) -->
+
+<% if current_customer && @order.customer_address.present? %>
+  <h2>Your Address Information:</h2>
+  <p><strong>Address:</strong> <%= @order.customer_address.address_line1 %></p>
+  <p><strong>City:</strong> <%= @order.customer_address.city %></p>
+  <p><strong>Province:</strong> <%= @order.customer_address.province.name %></p>
+  <p><strong>Postal Code:</strong> <%= @order.customer_address.postal_code %></p>
+  <% else %>
+
+    <div>
+      <%= form.label :addres, 'Address' %>
+      <%= form.text_field :address %>
+    </div>
+
+    <div>
+      <%= form.label :city %>
+      <%= form.text_field :city %>
+    </div>
+    <div>
+      <%= form.label :province_id %>
+      <%= form.collection_select :province_id, Province.all, :id, :name %>
+    </div>
+    <div>
+      <%= form.label :postal_code %>
+      <%= form.text_field :postal_code %>
+    </div>
+
+
+
+
+
+    <div>
+      <%= form.submit 'Place Order' %>
+    </div>
+  <% end %>
+
+<% end %>
+
+<%= link_to 'Back to Shopping Cart', cart_items_path %>

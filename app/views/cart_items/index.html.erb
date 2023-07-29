@@ -4,13 +4,20 @@
 <ul>
  <% session[:cart_items].each do |item| %>
   <li>
-    <p><%= item['book_title'] %>: <%= item['quantity'] %></p>
+    <p><%= item['book_title'] %> -- <%= item['quantity'] %></p>
+    <p>Price:<%= number_to_currency(item['book_price']) %></p>
+
     <%= button_to "+", cart_item_path(item['book_id'], quantity: item['quantity'] + 1), method: :patch %>(Quantity: <%= item['quantity'] %>)
 
     <%= button_to "-", cart_item_path(item['book_id'], quantity: item['quantity'] - 1), method: :patch %>
     <%= button_to "Remove", cart_item_path(item['book_id']), method: :delete %>
+
   </li>
 <% end %>
+<div>
+  <strong>Total Price: <%= number_to_currency(@total_price) %></strong>
+</div>
+ <%= link_to "Proceed to Checkout", new_order_path %>
 </ul>
 <% else %>
   <p>Your shopping cart is empty.</p>
