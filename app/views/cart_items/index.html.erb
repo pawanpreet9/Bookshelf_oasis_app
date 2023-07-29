@@ -1,16 +1,17 @@
+<!-- app/views/cart_items/index.html.erb -->
 <h1>Shopping Cart</h1>
+<% if session[:cart_items].present? %>
+<ul>
+ <% session[:cart_items].each do |item| %>
+  <li>
+    <p><%= item['book_title'] %>: <%= item['quantity'] %></p>
+    <%= button_to "+", cart_item_path(item['book_id'], quantity: item['quantity'] + 1), method: :patch %>(Quantity: <%= item['quantity'] %>)
 
-  <ul>
-    <% @cart_items.each do |item| %>
-
-      <li>
-        <%= item.book.title %>
-         <%= button_to "+", cart_item_path(item, quantity: item.quantity + 1), method: :patch %>(Quantity: <%= item.quantity %>)
-
-        <%= button_to "-", cart_item_path(item, quantity: item.quantity - 1), method: :patch %>
-        <%= button_to "Remove", cart_item_path(item), method: :delete %>
-      </li>
-    <% end %>
-  </ul>
-
-
+    <%= button_to "-", cart_item_path(item['book_id'], quantity: item['quantity'] - 1), method: :patch %>
+    <%= button_to "Remove", cart_item_path(item['book_id']), method: :delete %>
+  </li>
+<% end %>
+</ul>
+<% else %>
+  <p>Your shopping cart is empty.</p>
+<% end %>

@@ -11,7 +11,7 @@ gem 'sassc'
 gem 'faker'
 gem 'kaminari'
 
-
+gem 'activestorage'
 
 gem 'devise'
 
