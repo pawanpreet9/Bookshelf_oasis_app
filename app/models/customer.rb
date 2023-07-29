@@ -5,7 +5,7 @@ class Customer < ApplicationRecord
          :recoverable, :rememberable, :validatable
   has_many :orders
   validates :email, presence: true
-  has_many :cart_items
+
   belongs_to :province
 
   def self.ransackable_attributes(auth_object = nil)

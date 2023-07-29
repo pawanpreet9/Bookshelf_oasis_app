@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_29_201339) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_29_202401) do
   create_table "abouts", force: :cascade do |t|
     t.string "title"
     t.text "content"
@@ -111,6 +111,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_201339) do
     t.integer "book_id", null: false
     t.index ["book_id", "genre_id"], name: "index_books_genres_on_book_id_and_genre_id"
     t.index ["genre_id", "book_id"], name: "index_books_genres_on_genre_id_and_book_id"
+  end
+
+  create_table "cart_items", force: :cascade do |t|
+    t.integer "cart_id"
+    t.integer "book_id"
+    t.integer "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "carts", force: :cascade do |t|
