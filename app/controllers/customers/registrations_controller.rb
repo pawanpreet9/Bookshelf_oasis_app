@@ -14,9 +14,19 @@ class Customers::RegistrationsController < Devise::RegistrationsController
   def show
     @customer = current_customer
   end
-  def customer_params
-    params.require(:customer).permit(:email, :password, :password_confirmation, :province_id, :address )
+
+  def add_address
+
+    current_customer.update(customer_params)
+    redirect_to customer_profile_path, notice: 'Address added/updated successfully.'
   end
+
+  private
+
+  def customer_params
+    params.require(:customer).permit(:email, :password, :password_confirmation, :province_id, :address, :city, :postal_code)
+  end
+
   protected
 
   def after_sign_up_path_for(resource)
@@ -39,16 +49,6 @@ class Customers::RegistrationsController < Devise::RegistrationsController
     params.require(:customer).permit( :email, :password, :password_confirmation, :current_password, :province_id, :address, :city, :postal_code)
   end
 
-  def add_address
-    current_customer.update(customer_params)
-    redirect_to customer_profile_path, notice: 'Address added/updated successfully.'
-  end
-
-  private
-
-  def customer_param
-    params.require(:customer).permit(:address, :city, :province,:postal_code)
-  end
 
 
 

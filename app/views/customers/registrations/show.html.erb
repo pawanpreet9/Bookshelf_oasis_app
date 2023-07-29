@@ -13,7 +13,7 @@
 <% end %>
 
 <h2>Add/Update Address</h2>
-<%= form_for(current_customer, url: customer_add_address_path, method: :patch) do |f| %>
+<%= form_for(current_customer, url: add_address_path, method: :patch) do |f| %>
   <div class="field">
     <%= f.label :address %>
     <%= f.text_field :address %>

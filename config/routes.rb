@@ -32,7 +32,8 @@ Rails.application.routes.draw do
   }
   devise_scope :customer do
     get 'customers/profile', to: 'customers/registrations#show', as: :customer_profile
-    patch 'customers/add_address', to: 'customers/registrations#add_address', as: :customer_add_address
+    patch 'customers/add_address', to: 'customers/registrations#add_address', as: :add_address
+  # patch 'registration/add_address', to: 'registrations#add_address', as: :add_address
   end
 
 
