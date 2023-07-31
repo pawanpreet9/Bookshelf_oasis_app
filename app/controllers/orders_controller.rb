@@ -1,7 +1,6 @@
 class OrdersController < ApplicationController
-  def new
+  def checkout
     @order = Order.new
-    @order.build_customer_address
     @cart_items = current_cart.cart_items
     @cart_items.each do |cart_item|
       @order.order_items.build(book_id: cart_item.book_id, quantity: cart_item.quantity)
