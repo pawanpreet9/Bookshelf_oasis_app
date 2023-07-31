@@ -1,42 +1,38 @@
-<!-- app/views/orders/new.html.erb (or your checkout form view) -->
-<%= form_with(model: @order) do |form| %>
-  <!-- Your other form fields for the order (if any) -->
+<!-- app/views/orders/checkout.html.erb -->
+<h1>Checkout</h1>
 
-<% if current_customer && @order.customer_address.present? %>
-  <h2>Your Address Information:</h2>
-  <p><strong>Address:</strong> <%= @order.customer_address.address_line1 %></p>
-  <p><strong>City:</strong> <%= @order.customer_address.city %></p>
-  <p><strong>Province:</strong> <%= @order.customer_address.province.name %></p>
-  <p><strong>Postal Code:</strong> <%= @order.customer_address.postal_code %></p>
+<%= form_with(model: @order, url: orders_path) do |form| %>
+  <% if current_customer %>
+    <% if current_customer.address.present? %>
+      <h2>Shipping Address</h2>
+      <p><strong>Name:</strong> <%= current_customer.name %></p>
+      <p><strong>Address:</strong> <%= current_customer.address %></p>
+      <p><strong>City:</strong> <%= current_customer.city %></p>
+      <p><strong>Province:</strong> <%= current_customer.province %></p>
+      <p><strong>Postal Code:</strong> <%= current_customer.postal_code %></p>
+    <% else %>
+      <h2>Shipping Address</h2>
+      <p>You have not added a shipping address yet.</p>
+    <% end %>
   <% else %>
+    <h2>Shipping Address</h2>
+    <%= form.label :address, "Address" %><br>
+    <%= form.text_field :address %><br>
 
-    <div>
-      <%= form.label :addres, 'Address' %>
-      <%= form.text_field :address %>
-    </div>
+    <%= form.label :city, "City" %><br>
+    <%= form.text_field :city %><br>
 
-    <div>
-      <%= form.label :city %>
-      <%= form.text_field :city %>
-    </div>
-    <div>
-      <%= form.label :province_id %>
-      <%= form.collection_select :province_id, Province.all, :id, :name %>
-    </div>
-    <div>
-      <%= form.label :postal_code %>
-      <%= form.text_field :postal_code %>
-    </div>
+    <%= form.label :province, "Province" %><br>
+    <%= form.text_field :province %><br>
 
-
-
-
-
-    <div>
-      <%= form.submit 'Place Order' %>
-    </div>
+    <%= form.label :postal_code, "Postal Code" %><br>
+    <%= form.text_field :postal_code %><br>
   <% end %>
 
-<% end %>
+  <h2>Order Items</h2>
+  <table>
+    <!-- Display order items here -->
+  </table>
 
-<%= link_to 'Back to Shopping Cart', cart_items_path %>
+  <%= form.submit "Place Order" %>
+<% end %>
