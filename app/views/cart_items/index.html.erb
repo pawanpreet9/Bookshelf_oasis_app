@@ -17,7 +17,7 @@
 <div>
   <strong>Total Price: <%= number_to_currency(@total_price) %></strong>
 </div>
- <%= link_to "Proceed to Checkout", new_order_path %>
+ <%= link_to "Proceed to Checkout", checkout_path %>
 </ul>
 <% else %>
   <p>Your shopping cart is empty.</p>
