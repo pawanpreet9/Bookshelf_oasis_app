@@ -4,18 +4,29 @@
 <%= form_with(model: @order, url: orders_path) do |form| %>
   <% if current_customer %>
     <% if current_customer.address.present? %>
-      <h2>Shipping Address</h2>
+      <!-- Display existing customer address here -->
       <p><strong>Email:</strong> <%= current_customer.email %></p>
       <p><strong>Address:</strong> <%= current_customer.address %></p>
       <p><strong>City:</strong> <%= current_customer.city %></p>
       <p><strong>Province:</strong> <%= current_customer.province.name %></p>
       <p><strong>Postal Code:</strong> <%= current_customer.postal_code %></p>
     <% else %>
+      <!-- If the customer is logged in but has no address, show a message or a form to enter the address -->
       <h2>Shipping Address</h2>
-      <p>You have not added a shipping address yet.</p>
+      <%= form.label :address, "Address" %><br>
+      <%= form.text_field :address %><br>
+
+      <%= form.label :city, "City" %><br>
+      <%= form.text_field :city %><br>
+
+      <%= form.label :province_id, "Province" %><br>
+      <%= form.collection_select :province_id, Province.all, :id, :name %><br>
+
+      <%= form.label :postal_code, "Postal Code" %><br>
+      <%= form.text_field :postal_code %><br>
     <% end %>
   <% else %>
-    <h2>Shipping Address</h2>
+    <!-- Display form fields for guest customer -->
     <%= form.label :email, "Email" %><br>
     <%= form.text_field :email %><br>
 
@@ -31,8 +42,6 @@
     <%= form.label :postal_code, "Postal Code" %><br>
     <%= form.text_field :postal_code %><br>
   <% end %>
-
-
 
   <%= form.submit "Place Order" %>
 <% end %>

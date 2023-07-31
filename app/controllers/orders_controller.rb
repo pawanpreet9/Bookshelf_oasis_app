@@ -1,11 +1,12 @@
 class OrdersController < ApplicationController
+
   def checkout
     @order = Order.new
+    @order.build_customer if current_customer.nil? # Build customer if not logged in
     @cart_items = current_cart.cart_items
-    @cart_items.each do |cart_item|
-      @order.order_items.build(book_id: cart_item.book_id, quantity: cart_item.quantity)
-    end
+    @provinces = Province.all # Fetch all provinces to display in the dropdown
   end
+
   def create
     @order = Order.new(order_params)
 
@@ -22,6 +23,7 @@ class OrdersController < ApplicationController
       current_cart.cart_items.destroy_all
       redirect_to @order, notice: 'Order was successfully created.'
     else
+      @provinces = Province.all
       render :checkout
     end
   end
@@ -33,9 +35,11 @@ class OrdersController < ApplicationController
 
 
   def order_params
-    params.require(:order).permit(:customer_id, :address, :city, :province_id, :postal_code,
+    params.require(:order).permit(:customer_id, :order_date, :total, :description, :address, :city, :province_id, :postal_code,
                                   order_items_attributes: [:book_id, :quantity])
   end
+
+
   def customer_params
     params.require(:customer).permit( :email, :address, :city, :province_id, :postal_code)
   end
