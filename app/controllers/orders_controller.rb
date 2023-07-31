@@ -1,7 +1,11 @@
 class OrdersController < ApplicationController
   def new
     @order = Order.new
-    @order.build_customer_address # Ensure that the customer_address association is built if it's a nested attribute
+    @order.build_customer_address
+    @cart_items = current_cart.cart_items
+    @cart_items.each do |cart_item|
+      @order.order_items.build(book_id: cart_item.book_id, quantity: cart_item.quantity)
+    end
   end
 
   def create
@@ -9,15 +13,23 @@ class OrdersController < ApplicationController
     @order.customer = current_customer
 
     if @order.save
+      # Empty the cart after successful order creation
+      current_cart.cart_items.destroy_all
       redirect_to @order, notice: 'Order was successfully created.'
     else
       render :new
     end
   end
-
+  def total_price
+    # Calculate the total price for the order items, including taxes
+    order_items.sum { |item| item.book.price * item.quantity }
+  end
   private
 
+
   def order_params
-    params.require(:order).permit(:other_order_params_you_need, customer_attributes: [:id, :address_line1, :address_line2, :city, :province_id, :postal_code])
+    params.require(:order).permit(:customer_id, :address, :city, :province_id, :postal_code,
+                                  order_items_attributes: [:book_id, :quantity])
   end
+
 end
