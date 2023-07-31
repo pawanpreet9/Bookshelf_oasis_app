@@ -11,27 +11,7 @@ class Order < ApplicationRecord
     ["customer", "order_line_items"]
   end
   accepts_nested_attributes_for :order_line_items
+  accepts_nested_attributes_for :customer
 
-  def subtotal
-    order_items.sum { |item| item.book.price * item.quantity }
-  end
 
-  def total
-    # Calculate the total price for the order items, including taxes
-    subtotal + gst + pst + hst
-  end
-
-  private
-
-  def gst
-    subtotal * (province.gst_rate / 100)
-  end
-
-  def pst
-    subtotal * (province.pst_rate / 100)
-  end
-
-  def hst
-    subtotal * (province.hst_rate / 100)
-  end
 end

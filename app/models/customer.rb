@@ -4,7 +4,12 @@ class Customer < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   has_many :orders
-  validates :email, presence: true
+  def guest_customer?
+    !persisted?
+  end
+  validates :email, presence: true, unless: :guest_customer?
+  validates :password, presence: true, unless: :guest_customer?
+
 
   belongs_to :province
 
