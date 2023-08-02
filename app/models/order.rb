@@ -13,5 +13,25 @@ class Order < ApplicationRecord
   accepts_nested_attributes_for :order_line_items
   accepts_nested_attributes_for :customer
 
+  def subtotal
+    order_items.sum(&:total_price)
+  end
+
+  def total_taxes
+    if customer && customer.province
+      gst_rate = customer.province.gst_rate || 0
+      pst_rate = customer.province.pst_rate || 0
+      hst_rate = customer.province.hst_rate || 0
+
+      subtotal * (gst_rate + pst_rate + hst_rate)
+    else
+      0
+    end
+  end
+
+  def total_price
+    subtotal + total_taxes
+  end
+
 
 end
