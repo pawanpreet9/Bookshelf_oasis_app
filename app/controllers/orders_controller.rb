@@ -12,9 +12,16 @@ class OrdersController < ApplicationController
   end
   def create
     @order = Order.new(order_params)
-    @order.customer = current_customer if current_customer
 
-    if @order.save
+    # If the customer is logged in, associate the order with the current_customer
+    if current_customer
+      @order.customer = current_customer
+    else
+      # If the customer is not logged in, create a new customer based on the order parameters
+      @order.build_customer(email: nil, password: nil) unless @order.customer.present?
+    end
+
+    if @order.save(validate: false)
       redirect_to @order, notice: 'Order was successfully created.'
     else
       puts @order.errors.full_messages

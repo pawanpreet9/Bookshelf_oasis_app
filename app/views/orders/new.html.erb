@@ -1,29 +1,33 @@
-<!-- Other form fields for the order, e.g., order items, etc. -->
+<!-- app/views/orders/new.html.erb -->
+<%= form_for @order do |form| %>
+  <!-- Other form fields for order, e.g., order items, etc. -->
 
-<% if current_customer %>
-  <h2>Your Address Information:</h2>
-  <p><strong>Address:</strong> <%= @order.customer.address %></p>
-  <p><strong>City:</strong> <%= @order.customer.city %></p>
-  <p><strong>Province:</strong> <%= @order.customer.province.name %></p>
-  <p><strong>Postal Code:</strong> <%= @order.customer.postal_code %></p>
-<% else %>
-  <%= form.fields_for :customer, @order.customer do |customer_fields| %>
-    <div>
-      <%= customer_fields.label :address, 'Address ' %>
-      <%= customer_fields.text_field :address %>
-    </div>
-    <div>
-      <%= customer_fields.label :city, 'City ' %>
-      <%= customer_fields.text_field :city %>
-    </div>
-
-<div>
-      <%= customer_fields.label :Province, 'Province ' %>
-      <%= customer_fields.text_field :province %>
-    </div>
-
-
-
+  <% if current_customer %>
+    <h2>Your Address Information:</h2>
+    <p><strong>Address:</strong> <%= @order.customer.address %></p>
+    <p><strong>City:</strong> <%= @order.customer.city %></p>
+    <p><strong>Province:</strong> <%= @order.customer.province.name %></p>
+    <p><strong>Postal Code:</strong> <%= @order.customer.postal_code %></p>
+  <% else %>
+    <%= form.fields_for :customer, @order.customer do |customer_fields| %>
+      <div>
+        <%= customer_fields.label :address, 'Address ' %>
+        <%= customer_fields.text_field :address %>
+      </div>
+      <div>
+        <%= customer_fields.label :city, 'City ' %>
+        <%= customer_fields.text_field :city %>
+      </div>
+      <div>
+        <%= customer_fields.label :province_id, 'Province ' %>
+        <%= customer_fields.select :province_id, options_for_select(Province.all.map { |p| [p.name, p.id] }) %>
+      </div>
+      <div>
+        <%= customer_fields.label :postal_code, 'Postal Code ' %>
+        <%= customer_fields.text_field :postal_code %>
+      </div>
+    <% end %>
   <% end %>
-<% end %>
 
+  <%= form.submit 'Continue' %>
+<% end %>

@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   get 'shopping_cart', to: 'cart_items#index'
   post 'shopping_cart', to: 'cart_items#create', as: 'add_to_cart'
 
-  resources :orders
+  resources :orders, only: [:new, :create, :show]
 
 
   resources :cart_items, only: [:create, :update, :destroy, :index]
