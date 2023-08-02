@@ -1,40 +1,29 @@
-<%= form_with(model: @order, local: true) do |form| %>
-  <!-- Other form fields for order, e.g., order items, etc. -->
+<!-- Other form fields for the order, e.g., order items, etc. -->
 
-  <% if current_customer %>
-    <h2>Your Address Information:</h2>
-    <p><strong>Address:</strong> <%= @order.customer.address %></p>
-    <p><strong>City:</strong> <%= @order.customer.city %></p>
-    <p><strong>Province:</strong> <%= @order.customer.province.name %></p>
-    <p><strong>Postal Code:</strong> <%= @order.customer.postal_code %></p>
-  <% else %>
+<% if current_customer %>
+  <h2>Your Address Information:</h2>
+  <p><strong>Address:</strong> <%= @order.customer.address %></p>
+  <p><strong>City:</strong> <%= @order.customer.city %></p>
+  <p><strong>Province:</strong> <%= @order.customer.province.name %></p>
+  <p><strong>Postal Code:</strong> <%= @order.customer.postal_code %></p>
+<% else %>
+  <%= form.fields_for :customer, @order.customer do |customer_fields| %>
+    <div>
+      <%= customer_fields.label :address, 'Address ' %>
+      <%= customer_fields.text_field :address %>
+    </div>
+    <div>
+      <%= customer_fields.label :city, 'City ' %>
+      <%= customer_fields.text_field :city %>
+    </div>
 
-    <%= form.fields_for :customer, @order.customer || @order.build_customer do |customer_fields| %>
-      <div>
-        <%= customer_fields.label :address, 'Address ' %>
-        <%= customer_fields.text_field :address %>
-      </div>
+<div>
+      <%= customer_fields.label :Province, 'Province ' %>
+      <%= customer_fields.text_field :province %>
+    </div>
 
-      <div>
-        <%= customer_fields.label :city %>
-        <%= customer_fields.text_field :city %>
-      </div>
-      <div>
-        <%= customer_fields.label :province_id %>
-        <%= customer_fields.collection_select :province_id, Province.all, :id, :name %>
-      </div>
-      <div>
-        <%= customer_fields.label :postal_code %>
-        <%= customer_fields.text_field :postal_code %>
-      </div>
-        <%= customer_fields.submit "Continue", class: "btn btn-primary" %>
-
-    <% end %>
 
 
   <% end %>
-
-<%= form.submit 'Place Order' %>
-  <!-- Other form fields for order, e.g., order items, etc. -->
-
 <% end %>
+
