@@ -27,7 +27,7 @@ class OrdersController < ApplicationController
       @order.total = @order.total_price
     else
       # If the customer is not logged in, create a new customer based on the order parameters
-      @order.build_customer(email: nil, password: nil)
+      @order.build_customer(email: nil, password: nil,address: params[:order][:customer_attributes][:address], city: params[:order][:customer_attributes][:city], province_id: params[:order][:customer_attributes][:province_id], postal_code: params[:order][:customer_attributes][:postal_code])
       @order.total = @order.total_price
       @order.address = params[:order][:customer_attributes][:address]
       @order.city = params[:order][:customer_attributes][:city]
