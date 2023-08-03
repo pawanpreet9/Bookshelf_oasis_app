@@ -17,8 +17,9 @@ Rails.application.routes.draw do
   get 'shopping_cart', to: 'cart_items#index'
   post 'shopping_cart', to: 'cart_items#create', as: 'add_to_cart'
 
-  resources :orders, only: [ :create]
-  get '/checkout', to: 'orders#checkout', as: :checkout
+  resources :orders, only: [:new, :create, :show]
+
+
   resources :cart_items, only: [:create, :update, :destroy, :index]
   resources :books, only: [:index, :show]
   resources :genres, only: [:index, :show]
@@ -28,6 +29,8 @@ Rails.application.routes.draw do
 
 
   end
+
+
   devise_for :customers, controllers: {
     registrations: 'customers/registrations',
     sessions: 'customers/sessions'
