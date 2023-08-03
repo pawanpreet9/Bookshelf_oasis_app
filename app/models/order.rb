@@ -14,7 +14,7 @@ class Order < ApplicationRecord
   accepts_nested_attributes_for :customer
 
   def subtotal
-    order_items.sum(&:total_price)
+    order_line_items.sum(&:total_price)
   end
 
   def total_taxes
