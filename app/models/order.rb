@@ -2,7 +2,7 @@ class Order < ApplicationRecord
   belongs_to :customer
   has_many :order_line_items
   has_one :customer_address, through: :customer
-
+belongs_to :province
   def self.ransackable_attributes(auth_object = nil)
     ["created_at", "customer_id", "description", "id", "order_date", "total", "updated_at"]
   end
@@ -31,6 +31,17 @@ class Order < ApplicationRecord
 
   def total_price
     subtotal + total_taxes
+  end
+  def total_gst
+    total_taxes * (customer.province.gst_rate || 0)
+  end
+
+  def total_pst
+    total_taxes * (customer.province.pst_rate || 0)
+  end
+
+  def total_hst
+    total_taxes * (customer.province.hst_rate || 0)
   end
 
 
