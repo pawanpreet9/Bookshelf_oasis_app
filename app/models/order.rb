@@ -19,16 +19,16 @@ class Order < ApplicationRecord
   accepts_nested_attributes_for :customer
 
   def subtotal
-    order_line_items.sum(&:total_price)
+    order_items.sum { |item| item.book.price * item.quantity }
   end
 
   def total_taxes
-    if customer&.province
-      gst_rate = customer.province.gst_rate || 0
-      pst_rate = customer.province.pst_rate || 0
-      hst_rate = customer.province.hst_rate || 0
+    if province
+      gst_rate = province.gst_rate || 0
+      pst_rate = province.pst_rate || 0
+      hst_rate = province.hst_rate || 0
 
-      subtotal * (gst_rate + pst_rate + hst_rate)
+      subtotal * (gst_rate + pst_rate + hst_rate) / 100
     else
       0
     end
@@ -39,14 +39,14 @@ class Order < ApplicationRecord
   end
 
   def total_gst
-    total_taxes * (customer.province.gst_rate || 0)
+    total_taxes * (province.gst_rate || 0) / 100
   end
 
   def total_pst
-    total_taxes * (customer.province.pst_rate || 0)
+    total_taxes * (province.pst_rate || 0) / 100
   end
 
   def total_hst
-    total_taxes * (customer.province.hst_rate || 0)
+    total_taxes * (province.hst_rate || 0) / 100
   end
 end

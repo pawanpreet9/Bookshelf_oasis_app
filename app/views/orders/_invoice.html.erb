@@ -21,9 +21,7 @@
   <p><strong>PST Rate:</strong> <%= @order.province.pst_rate %>%</p>
   <p><strong>HST Rate:</strong> <%= @order.province.hst_rate %>%</p>
   <p><strong>Subtotal:</strong> <%= number_to_currency(@order.subtotal) %></p>
-  <p><strong>GST:</strong> <%= number_to_currency(@order.total_gst) %></p>
-  <p><strong>PST:</strong> <%= number_to_currency(@order.total_pst) %></p>
-  <p><strong>HST:</strong> <%= number_to_currency(@order.total_hst) %></p>
+<p><strong>Total Taxes:</strong> <%= number_to_currency(@order.total_taxes) %></p>
   <p><strong>Total:</strong> <%= number_to_currency(@order.total_price) %></p>
 
 <% else %>
