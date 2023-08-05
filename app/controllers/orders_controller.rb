@@ -2,7 +2,7 @@
 
 class OrdersController < ApplicationController
   def show
-    @order = Order.includes(:customer, :province).find(params[:id])
+    @order = Order.includes(:customer, :province, :books).find(params[:id])
   end
 
   def new

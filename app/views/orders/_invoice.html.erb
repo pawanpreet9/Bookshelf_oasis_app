@@ -6,7 +6,16 @@
 <p><strong>City:</strong> <%= @order.customer.city %></p>
 <p><strong>Province:</strong> <%= @order.province.name %></p>
 <p><strong>Postal Code:</strong> <%= @order.customer.postal_code %></p>
-
+  <h2>Books</h2>
+  <ul>
+    <% @order.order_items.each do |order_item| %>
+      <li>
+        <%= order_item.book.title %>
+        - <%= number_to_currency(order_item.book.price) %>
+        x <%= order_item.quantity %>
+      </li>
+      <% end %>
+      </ul>
 <% if @order.customer.present? && @order.province.present? %>
   <p><strong>GST Rate:</strong> <%= @order.province.gst_rate %>%</p>
   <p><strong>PST Rate:</strong> <%= @order.province.pst_rate %>%</p>
@@ -16,7 +25,11 @@
   <p><strong>PST:</strong> <%= number_to_currency(@order.total_pst) %></p>
   <p><strong>HST:</strong> <%= number_to_currency(@order.total_hst) %></p>
   <p><strong>Total:</strong> <%= number_to_currency(@order.total_price) %></p>
+
 <% else %>
+
+
   <p><strong>Taxes:</strong> Information not available.</p>
   <p><strong>Total:</strong> Information not available.</p>
 <% end %>
+
