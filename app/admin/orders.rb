@@ -15,17 +15,27 @@ ActiveAdmin.register Order do
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
-  permit_params :order_date, :total, :customer_id, :description
+  permit_params :total, :customer_id, :description
 
-  filter :order_date
   filter :total
   filter :customer
   filter :description
   filter :created_at
 
+  index do
+    selectable_column
+    column :id
+    column :description
+    column :total
+    column :customer
+    column :books do |order|
+      order.order_items.joins(:book).pluck(:title).join(', ')
+    end
+    actions
+  end
+
   form do |f|
     f.inputs 'Order Details' do
-      f.input :order_date
       f.input :description
       f.input :total
       f.input :customer

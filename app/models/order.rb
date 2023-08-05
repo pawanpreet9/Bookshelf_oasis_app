@@ -4,7 +4,7 @@
 class Order < ApplicationRecord
   belongs_to :customer
   has_many :order_line_items
-  has_many :order_items
+  has_many :order_items,  dependent: :destroy
   has_many :books, through: :order_items
   has_one :customer_address, through: :customer
   belongs_to :province
@@ -15,7 +15,7 @@ class Order < ApplicationRecord
   def self.ransackable_associations(_auth_object = nil)
     %w[customer order_line_items]
   end
-  accepts_nested_attributes_for :order_line_items
+  accepts_nested_attributes_for :order_items
   accepts_nested_attributes_for :customer
 
   def subtotal

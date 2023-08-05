@@ -21,6 +21,11 @@ class OrdersController < ApplicationController
       # Customer is a guest, build a new customer associated with the order
       @order.build_customer
     end
+
+    if session[:cart].present?
+      book_ids_in_cart = session[:cart].map { |item| item['book_id'] }
+      @order.book_ids = book_ids_in_cart
+    end
   end
 
   def create
@@ -45,8 +50,21 @@ class OrdersController < ApplicationController
       @order.postal_code = params[:order][:customer_attributes][:postal_code]
       @order.customer.province_id = params[:order][:customer_attributes][:province_id] if params[:order][:customer_attributes][:province_id].present?
     end
+ # Now, handle the creation of OrderItems
+    if session[:cart_items].present?
+      session[:cart_items].each do |item|
+        book = Book.find_by(id: item['book_id'])
+        next unless book # Skip if the book with the given ID is not found
+
+        @order.order_items.build(book: book, quantity: item['quantity'])
+      end
+    else
+      puts "session not found"
+    end
+    puts @order.order_items.inspect
 
     if @order.save(validate: false)
+      session[:cart_items] = []
       redirect_to @order, notice: 'Order was successfully created.'
     else
       puts @order.errors.full_messages

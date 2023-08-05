@@ -32,7 +32,7 @@ Rails.application.routes.draw do
   # Admin users namespace
   namespace :admin_users do
     resources :books
-    resources :order_line_items
+    resources :order_items
   end
 
   # Devise routes for customers
