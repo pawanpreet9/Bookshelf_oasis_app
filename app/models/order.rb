@@ -4,6 +4,8 @@
 class Order < ApplicationRecord
   belongs_to :customer
   has_many :order_line_items
+  has_many :order_items
+  has_many :books, through: :order_items
   has_one :customer_address, through: :customer
   belongs_to :province
   def self.ransackable_attributes(_auth_object = nil)
