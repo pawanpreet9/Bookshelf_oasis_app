@@ -22,8 +22,8 @@ class OrdersController < ApplicationController
       @order.build_customer
     end
 
-    if session[:cart].present?
-      book_ids_in_cart = session[:cart].map { |item| item['book_id'] }
+    if session[:cart_items].present?
+      book_ids_in_cart = session[:cart_items].map { |item| item['book_id'] }
       @order.book_ids = book_ids_in_cart
     end
   end
@@ -60,6 +60,10 @@ class OrdersController < ApplicationController
       end
     else
       puts "session not found"
+    end
+    if @order.order_items.blank?
+      redirect_to cart_items_path, alert: 'Cannot create an order without any books in the cart.'
+      return
     end
     puts @order.order_items.inspect
 
