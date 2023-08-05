@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Represents an customers in the system.
 class Customer < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -8,15 +11,15 @@ class Customer < ApplicationRecord
     !persisted?
   end
   validates :email, presence: true, unless: :guest_customer?
-  validates :password, presence: true, unless: :guest_customer?
-
 
   belongs_to :province
   def initialize(attributes = nil)
     super
     set_default_email_and_password
   end
+
   private
+
   def set_default_email_and_password
     self.email ||= generate_guest_email
     self.password ||= generate_guest_password
@@ -32,10 +35,11 @@ class Customer < ApplicationRecord
     SecureRandom.hex(8)
   end
 
-  def self.ransackable_attributes(auth_object = nil)
-    ["address", "created_at", "email", "id", "name", "updated_at"]
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[address created_at email id name updated_at]
   end
-  def self.ransackable_associations(auth_object = nil)
-    ["orders"]
+
+  def self.ransackable_associations(_auth_object = nil)
+    ['orders']
   end
 end

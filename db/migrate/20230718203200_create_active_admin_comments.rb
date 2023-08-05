@@ -1,5 +1,9 @@
+# frozen_string_literal: true
+
+# Create active admin comments model
 class CreateActiveAdminComments < ActiveRecord::Migration[7.0]
   def self.up
+    # migration code here
     create_table :active_admin_comments do |t|
       t.string :namespace
       t.text   :body
@@ -11,6 +15,7 @@ class CreateActiveAdminComments < ActiveRecord::Migration[7.0]
   end
 
   def self.down
+    # migration code here
     drop_table :active_admin_comments
   end
 end
