@@ -38,12 +38,12 @@ class OrdersController < ApplicationController
       @order.city = current_customer.city
       @order.province_id = current_customer.province_id
       @order.postal_code = current_customer.postal_code
-      @order.total = @order.total_price
+
     else
       # If the customer is not logged in, create a new customer based on the order parameters
       @order.build_customer(email: nil, password: nil, address: params[:order][:customer_attributes][:address],
                             city: params[:order][:customer_attributes][:city], province_id: params[:order][:customer_attributes][:province_id], postal_code: params[:order][:customer_attributes][:postal_code])
-      @order.total = @order.total_price
+
       @order.address = params[:order][:customer_attributes][:address]
       @order.city = params[:order][:customer_attributes][:city]
       @order.province_id = params[:order][:customer_attributes][:province_id]
@@ -55,7 +55,7 @@ class OrdersController < ApplicationController
       session[:cart_items].each do |item|
         book = Book.find_by(id: item['book_id'])
         next unless book # Skip if the book with the given ID is not found
-
+        item['price'] = book.price.to_f
         @order.order_items.build(book: book, quantity: item['quantity'])
       end
     else
@@ -66,6 +66,8 @@ class OrdersController < ApplicationController
       return
     end
     puts @order.order_items.inspect
+    @order.total = @order.total_price
+
 
     if @order.save(validate: false)
       session[:cart_items] = []

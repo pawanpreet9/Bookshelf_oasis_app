@@ -8,6 +8,7 @@ class Order < ApplicationRecord
   has_many :books, through: :order_items
   has_one :customer_address, through: :customer
   belongs_to :province
+  attr_readonly :pst, :gst, :hst, :taxes, :total
   def self.ransackable_attributes(_auth_object = nil)
     %w[created_at customer_id description id order_date total updated_at]
   end
