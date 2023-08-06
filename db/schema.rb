@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_29_202401) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_06_184414) do
   create_table "abouts", force: :cascade do |t|
     t.string "title"
     t.text "content"
@@ -91,6 +91,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_202401) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "book_price_histories", force: :cascade do |t|
+    t.decimal "price"
+    t.integer "book_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["book_id"], name: "index_book_price_histories_on_book_id"
+  end
+
   create_table "books", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -154,6 +162,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_202401) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "order_items", force: :cascade do |t|
+    t.integer "order_id"
+    t.integer "book_id"
+    t.integer "quantity", default: 1
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["book_id"], name: "index_order_items_on_book_id"
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+  end
+
   create_table "order_line_items", force: :cascade do |t|
     t.integer "order_id"
     t.integer "book_id", null: false
@@ -171,6 +189,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_202401) do
     t.integer "customer_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "address"
+    t.string "city"
+    t.integer "province_id"
+    t.string "postal_code"
+    t.text "product_prices"
+    t.decimal "gst_rate"
+    t.decimal "pst_rate"
+    t.decimal "hst_rate"
     t.index ["customer_id"], name: "index_orders_on_customer_id"
   end
 
@@ -178,12 +204,29 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_202401) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "gst_rate"
+    t.decimal "pst_rate"
+    t.decimal "hst_rate"
+  end
+
+  create_table "tax_rate_histories", force: :cascade do |t|
+    t.decimal "gst_rate"
+    t.decimal "pst_rate"
+    t.decimal "hst_rate"
+    t.integer "province_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["province_id"], name: "index_tax_rate_histories_on_province_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "book_price_histories", "books"
   add_foreign_key "books", "authors"
   add_foreign_key "customers", "provinces"
+  add_foreign_key "order_items", "books"
+  add_foreign_key "order_items", "orders"
   add_foreign_key "order_line_items", "books"
   add_foreign_key "orders", "customers"
+  add_foreign_key "tax_rate_histories", "provinces"
 end

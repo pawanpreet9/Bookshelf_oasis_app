@@ -1,11 +1,11 @@
+# frozen_string_literal: true
 
 class SessionsController < ApplicationController
-  def new
-  end
+  def new; end
 
   def create
     admin = Admin.find_by(username: params[:session][:username])
-    if admin && admin.authenticate(params[:session][:password]) && params[:session][:password] == params[:session][:password_confirmation]
+    if admin&.authenticate(params[:session][:password]) && params[:session][:password] == params[:session][:password_confirmation]
       session[:admin_id] = admin.id
       redirect_to admin_dashboard_path
     else

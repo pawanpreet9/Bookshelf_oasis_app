@@ -1,5 +1,6 @@
-ActiveAdmin.register Book do
+# frozen_string_literal: true
 
+ActiveAdmin.register Book do
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
   #
@@ -14,7 +15,8 @@ ActiveAdmin.register Book do
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
-  permit_params :title, :description, :quantity, :pages, :price, :image, :publisher, :publication_date, :author_id, genre_ids: []
+  permit_params :title, :description, :quantity, :pages, :price, :image, :publisher, :publication_date, :author_id,
+                genre_ids: []
 
   index do
     selectable_column
@@ -69,5 +71,4 @@ ActiveAdmin.register Book do
       end
     end
   end
-
 end
