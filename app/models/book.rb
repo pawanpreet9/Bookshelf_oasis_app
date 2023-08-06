@@ -12,13 +12,9 @@ class Book < ApplicationRecord
   has_many :order_items
   has_many :orders, through: :order_items
   has_many :book_price_histories, dependent: :destroy
-
-  after_save :record_book_price_change
-
-  private
-
-  def record_book_price_change
-    book_price_histories.create(price: price)
+  validates :title, presence: true
+  def current_price
+    book_price_histories.last&.price || price
   end
   def self.ransackable_attributes(_auth_object = nil)
     %w[author_id created_at description id image pages price publication_date publisher
