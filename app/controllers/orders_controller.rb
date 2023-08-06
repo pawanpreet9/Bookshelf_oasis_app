@@ -56,7 +56,8 @@ class OrdersController < ApplicationController
         book = Book.find_by(id: item['book_id'])
         next unless book # Skip if the book with the given ID is not found
         item['price'] = book.price.to_f
-        @order.order_items.build(book: book, quantity: item['quantity'])
+        tax_rate_history = Province.find_by(id: @order.province_id)&.current_tax_rate_history
+        @order.order_items.build(book: book, quantity: item['quantity'],tax_rate_history: tax_rate_history)
       end
     else
       puts "session not found"
@@ -66,7 +67,9 @@ class OrdersController < ApplicationController
       return
     end
     puts @order.order_items.inspect
+
     @order.total = @order.total_price
+
 
 
     if @order.save(validate: false)
