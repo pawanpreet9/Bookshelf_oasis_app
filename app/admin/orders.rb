@@ -1,37 +1,48 @@
+# app/admin/orders.rb
 ActiveAdmin.register Order do
-
-  # See permitted parameters documentation:
-  # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-  #
-  # Uncomment all parameters which should be permitted for assignment
-  #
-  # permit_params :order_date, :total, :description, :customer_id
-  #
-  # or
-  #
-  # permit_params do
-  #   permitted = [:order_date, :total, :description, :customer_id]
-  #   permitted << :other if params[:action] == 'create' && current_user.admin?
-  #   permitted
-  # end
-  permit_params :order_date, :total, :customer_id, :description
+  permit_params  :customer_id,:address, :city,:postal_code
 
 
-
-  filter :order_date
-  filter :total
   filter :customer
-  filter :description
+
   filter :created_at
+
+  index do
+    selectable_column
+    column :id
+
+    column :customer
+    column :address
+    column :city
+    column :postal_code
+    column :province do |order|
+      link_to order.province.name, admin_province_path(order.province) # Link to the province page
+    end
+    column :books do |order|
+      order.order_items.joins(:book).pluck(:title).map { |title| link_to(title, admin_book_path(Book.find_by(title: title))) }.join(', ').html_safe
+    end
+
+
+    column :order_total do |order|
+      number_to_currency(order.total_price)
+    end
+    column :gst_rate do |order|
+      "#{order.province.gst_rate || 0}%"
+    end
+    column :pst_rate do |order|
+      "#{order.province.pst_rate || 0}%"
+    end
+    column :hst_rate do |order|
+      "#{order.province.hst_rate || 0}%"
+    end
+    actions
+  end
 
   form do |f|
     f.inputs 'Order Details' do
-      f.input :order_date
-      f.input :description
-      f.input :total
+
+
       f.input :customer
-
-
     end
     f.actions
   end

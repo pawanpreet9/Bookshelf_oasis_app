@@ -38,7 +38,7 @@ class CartItemsController < ApplicationController
     end
 
     session[:cart_items] = @cart_items
-    redirect_to cart_items_path, notice: 'Quantity updated successfully!'
+    redirect_to cart_items_path
   end
   def destroy
     @cart_items = session[:cart_items] || []
