@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 ActiveAdmin.register Province do
   permit_params :name, :gst_rate, :pst_rate, :hst_rate
@@ -14,9 +15,8 @@ ActiveAdmin.register Province do
 
   filter :name
 
-
   form do |f|
-    f.inputs "Province Details" do
+    f.inputs 'Province Details' do
       f.input :name
       f.input :gst_rate
       f.input :pst_rate

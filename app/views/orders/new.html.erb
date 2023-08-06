@@ -1,0 +1,50 @@
+<!-- app/views/orders/new.html.erb -->
+<%= form_for @order do |form| %>
+
+
+  <% if current_customer %>
+
+     <h2>Your Address Information:</h2>
+     <h3>If you want update the address go here <%= link_to 'Profile', customer_profile_path %> </h3>
+    <%= form.fields_for :customer, @order.customer do |customer_fields| %>
+      <div>
+        <%= customer_fields.label :address, 'Address ' %>
+        <%= customer_fields.text_field :address, value: current_customer.address %>
+      </div>
+      <div>
+        <%= customer_fields.label :city, 'City ' %>
+        <%= customer_fields.text_field :city, value: current_customer.city %>
+      </div>
+      <div>
+        <%= customer_fields.label :province_id, 'Province ' %>
+        <%= customer_fields.select :province_id, options_for_select(Province.all.map { |p| [p.name, p.id] }, current_customer.province_id) %>
+      </div>
+      <div>
+        <%= customer_fields.label :postal_code, 'Postal Code ' %>
+        <%= customer_fields.text_field :postal_code, value: current_customer.postal_code %>
+      </div>
+    <% end %>
+
+  <% else %>
+    <%= form.fields_for :customer, @order.customer do |customer_fields| %>
+      <div>
+        <%= customer_fields.label :address, 'Address ' %>
+        <%= customer_fields.text_field :address %>
+      </div>
+      <div>
+        <%= customer_fields.label :city, 'City ' %>
+        <%= customer_fields.text_field :city %>
+      </div>
+      <div>
+        <%= customer_fields.label :province_id, 'Province ' %>
+        <%= customer_fields.select :province_id, options_for_select(Province.all.map { |p| [p.name, p.id] }) %>
+      </div>
+      <div>
+        <%= customer_fields.label :postal_code, 'Postal Code ' %>
+        <%= customer_fields.text_field :postal_code %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <%= form.submit 'Continue' %>
+<% end %>
