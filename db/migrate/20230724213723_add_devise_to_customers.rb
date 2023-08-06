@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
+# Add Devise to the customer
 class AddDeviseToCustomers < ActiveRecord::Migration[7.0]
-  def self.up
-
-  end
+  def self.up; end
 
   def self.down
     # By default, we don't want to make any assumption about how to roll back a migration when your

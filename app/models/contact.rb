@@ -1,6 +1,8 @@
-class Contact < ApplicationRecord
-  def self.ransackable_attributes(auth_object = nil)
-    ["content", "created_at", "id", "title", "updated_at"]
-  end
+# frozen_string_literal: true
 
+# Represents an contact data in the system.
+class Contact < ApplicationRecord
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[content created_at id title updated_at]
+  end
 end
