@@ -1,0 +1,26 @@
+/* app/assets/stylesheets/contact.scss */
+
+$primary-color: #65676a;
+$primary-color1: #dfebf6;
+$font-size-h1: 28px;
+$font-size-p: 16px;
+$spacing: 15px;
+
+.contact-info {
+  margin-top: $spacing;
+  background-color: $primary-color1;
+  box-shadow: 1px 1px 3px 1px rgb(168, 202, 217);
+  padding: 20px;
+
+  h1 {
+    font-size: $font-size-h1;
+    color: $primary-color;
+    margin-bottom: $spacing;
+  }
+
+  p {
+    font-size: $font-size-p;
+    line-height: 1.5;
+    font-style: italic;
+  }
+}

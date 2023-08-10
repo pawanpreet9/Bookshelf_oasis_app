@@ -1,0 +1,92 @@
+// app/assets/stylesheets/books.scss
+
+// Define variables
+$primary-color: #007bff;
+$secondary-color: #6c757d;
+$primary-color1: #dfebf6;
+$spacing: 10px;
+
+// Nesting for header and form styling
+.container {
+  margin-top: 2rem;
+  text-align: center;
+
+  h4 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+
+    a.btn {
+      margin-left: 0.5rem;
+    }
+  }
+
+  form {
+    margin-top: 1.5rem;
+
+    .form-group {
+      margin-bottom: 1rem;
+
+      label {
+        font-weight: bold;
+      }
+
+
+    }
+
+    .genre-select {
+      width: auto;
+    }
+
+
+  }
+}
+h1{
+  font-weight: bold;
+  text-shadow: 1px 1px 1px black;
+  font-style: italic;
+}
+// Table styling
+table {
+  margin-top: 2rem;
+
+  background-color: $primary-color1;
+
+  padding: $spacing;
+  box-shadow: 1px 1px 3px 1px rgb(168, 202, 217);
+
+  thead {
+    th {
+      font-weight: bold;
+      border-top: none;
+      text-align: center;
+    }
+  }
+
+  tbody {
+    td {
+      vertical-align: middle;
+    }
+  }
+}
+
+// Pagination styling
+.pagination {
+  justify-content: flex-end;
+  margin-top: 2rem;
+
+  .page-item {
+    &.disabled {
+      opacity: 0.5;
+    }
+
+    a.page-link {
+      color: $primary-color;
+
+      &:hover {
+        background-color: $primary-color;
+        color: white;
+      }
+    }
+  }
+}

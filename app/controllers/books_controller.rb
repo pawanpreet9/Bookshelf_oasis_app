@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class BooksController < ApplicationController
+  add_breadcrumb 'Home', :root_path
+  add_breadcrumb 'Books', :books_path
   def index
     @books = Book.includes(:author, :genres).page(params[:page]).per(10)
     @cart = current_cart
@@ -12,6 +14,7 @@ class BooksController < ApplicationController
 
   def show
     @book = Book.includes(:author, :genres).find(params[:id])
+    add_breadcrumb @book.title, book_path(@book)
   end
 
   def books_on_sale

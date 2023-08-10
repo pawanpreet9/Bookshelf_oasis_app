@@ -1,0 +1,28 @@
+// app/assets/stylesheets/about.scss
+$primary-color1: #dfebf6;
+$spacing: 15px;
+
+// About section styling
+.container {
+  .row {
+    text-align: center;
+    margin-top: $spacing;
+  background-color: $primary-color1;
+  box-shadow: 1px 1px 3px 1px rgb(168, 202, 217);
+  padding: 20px;
+    .col-md-8.offset-md-2 {
+      h1 {
+        margin-top: 2rem;
+        font-size: 2rem;
+        text-shadow: 1px 1px 1px black;
+        font-weight: bold;
+      }
+
+      p {
+        margin-top: 1rem;
+        font-size: 1.1rem;
+        font-style: italic;
+      }
+    }
+  }
+}

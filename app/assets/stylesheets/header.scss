@@ -1,0 +1,35 @@
+// app/assets/stylesheets/header.scss
+
+// Define variables
+$header-bg-color: #b4cde6 ;
+$header-text-color: #2233cf;
+$header-link-color: #ffffff;
+
+// Header styling
+nav {
+  ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    background-color: $header-bg-color;
+    padding: 1rem;
+
+    li {
+      margin: 0;
+      padding: 0;
+
+
+      a {
+        text-decoration: none;
+        color: $header-link-color;
+        transition: color 0.3s;
+        font-weight: bold;
+        text-shadow:1px 1px 1px black;
+
+        &:hover {
+          color: lighten($header-link-color, 20%);
+        }
+      }
+    }
+  }
+}

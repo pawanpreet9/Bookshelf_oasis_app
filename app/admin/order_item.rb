@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # app/admin/order_item.rb
 
 ActiveAdmin.register OrderItem do
@@ -26,8 +28,6 @@ ActiveAdmin.register OrderItem do
       order_item.tax_rate_history&.hst_rate || order_item.book_price_history&.province&.current_hst_rate # Show the current or historical HST rate
     end
 
-
     actions
   end
-
 end

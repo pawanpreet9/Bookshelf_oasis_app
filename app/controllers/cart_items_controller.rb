@@ -2,6 +2,8 @@
 
 class CartItemsController < ApplicationController
   def index
+    add_breadcrumb 'Home', :root_path
+    add_breadcrumb 'Shopping Cart', shopping_cart_path
     cart_items = session[:cart_items] || []
     @cart_items = cart_items.map do |item|
       book = Book.find_by(id: item['book_id'])

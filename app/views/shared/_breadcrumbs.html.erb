@@ -1,0 +1,11 @@
+<!-- views/shared/_breadcrumbs.html.erb -->
+
+<ol class="breadcrumb">
+  <% breadcrumbs.each do |breadcrumb| %>
+    <% if breadcrumb.last == breadcrumbs.last %>
+      <li class="breadcrumb-item active" aria-current="page"><%= breadcrumb.last %></li>
+    <% else %>
+      <li class="breadcrumb-item"><%= link_to breadcrumb.last, breadcrumb_path(breadcrumb) %></li>
+    <% end %>
+  <% end %>
+</ol>

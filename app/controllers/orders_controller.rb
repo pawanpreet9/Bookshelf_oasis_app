@@ -22,10 +22,10 @@ class OrdersController < ApplicationController
       @order.build_customer
     end
 
-    if session[:cart_items].present?
-      book_ids_in_cart = session[:cart_items].map { |item| item['book_id'] }
-      @order.book_ids = book_ids_in_cart
-    end
+    return unless session[:cart_items].present?
+
+    book_ids_in_cart = session[:cart_items].map { |item| item['book_id'] }
+    @order.book_ids = book_ids_in_cart
   end
 
   def create
@@ -50,17 +50,23 @@ class OrdersController < ApplicationController
       @order.postal_code = params[:order][:customer_attributes][:postal_code]
       @order.customer.province_id = params[:order][:customer_attributes][:province_id] if params[:order][:customer_attributes][:province_id].present?
     end
- # Now, handle the creation of OrderItems
+    # Now, handle the creation of OrderItems
     if session[:cart_items].present?
       session[:cart_items].each do |item|
         book = Book.find_by(id: item['book_id'])
         next unless book # Skip if the book with the given ID is not found
+
         item['price'] = book.price.to_f
-        tax_rate_history = Province.find_by(id: @order.province_id)&.current_tax_rate_history
-        @order.order_items.build(book: book, quantity: item['quantity'],tax_rate_history: tax_rate_history)
+        book_price_history = BookPriceHistory.create(book:, price_at_order_placement: book.price)
+        @order.order_items.build(
+          book:,
+          quantity: item['quantity'],
+          historical_book_price: book_price_history.price_at_order_placement,
+          tax_rate_history: TaxRateHistory.find_by(id: item['tax_rate_history_id'])
+        )
       end
     else
-      puts "session not found"
+      puts 'session not found'
     end
     if @order.order_items.blank?
       redirect_to cart_items_path, alert: 'Cannot create an order without any books in the cart.'
@@ -68,11 +74,11 @@ class OrdersController < ApplicationController
     end
     puts @order.order_items.inspect
 
-    @order.total = @order.total_price
-
-
+    #  @order.total = @order.total_price
+    @order.total = @order.order_items.map(&:total_price).sum
 
     if @order.save(validate: false)
+
       session[:cart_items] = []
       redirect_to @order, notice: 'Order was successfully created.'
     else

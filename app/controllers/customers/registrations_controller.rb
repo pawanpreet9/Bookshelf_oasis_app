@@ -9,6 +9,7 @@ module Customers
     # def new
     #   super
     # end
+    before_action :set_breadcrumbs, only: %i[new edit]
     def new
       @customer = Customer.new
     end
@@ -49,6 +50,12 @@ module Customers
     def account_update_params
       params.require(:customer).permit(:email, :password, :password_confirmation, :current_password, :province_id,
                                        :address, :city, :postal_code)
+    end
+
+    def set_breadcrumbs
+      add_breadcrumb 'Home', root_path
+      add_breadcrumb 'Sign Up', new_customer_registration_path if action_name == 'new'
+      add_breadcrumb 'Edit Profile', edit_customer_registration_path if action_name == 'edit'
     end
 
     # POST /resource

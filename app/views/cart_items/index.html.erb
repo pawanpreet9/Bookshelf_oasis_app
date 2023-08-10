@@ -7,19 +7,36 @@
     <p><%= item['book_title'] %> -- <%= item['quantity'] %></p>
     <p>Price:<%= number_to_currency(item['book_price']) %></p>
 
-    <%= button_to "+", cart_item_path(item['book_id'], quantity: item['quantity'] + 1), method: :patch %>(Quantity: <%= item['quantity'] %>)
 
-    <%= button_to "-", cart_item_path(item['book_id'], quantity: item['quantity'] - 1), method: :patch %>
-    <%= button_to "Remove", cart_item_path(item['book_id']), method: :delete %>
+
+        <form action="<%= cart_item_path(item['book_id'], quantity: item['quantity'] + 1) %>" method="post">
+          <input type="hidden" name="_method" value="patch">
+          <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
+          <input type="submit" value="+">
+        </form>
+        (Quantity: <%= item['quantity'] %>)
+        <form action="<%= cart_item_path(item['book_id'], quantity: item['quantity'] - 1) %>" method="post">
+          <input type="hidden" name="_method" value="patch">
+          <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
+          <input type="submit" value="-">
+        </form>
+
+        <form action="<%= cart_item_path(item['book_id']) %>" method="post">
+          <input type="hidden" name="_method" value="delete">
+          <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
+          <input type="submit" value="Remove">
+        </form>
 
   </li>
+
 <% end %>
+</ul>
 <div>
   <strong>Total Price: <%= number_to_currency(@total_price) %></strong>
 </div>
  <%= link_to "Proceed to Checkout", new_order_path %>
 
-</ul>
+
 <% else %>
   <p>Your shopping cart is empty.</p>
 <% end %>

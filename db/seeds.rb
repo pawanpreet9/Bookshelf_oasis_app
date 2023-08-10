@@ -58,7 +58,7 @@ genre_ids = Genre.pluck(:id)
   book.genres << genres
 
   book.image.attach(io: URI.open(Faker::LoremFlickr.image(size: '200x300', search_terms: ['book'])),
-                   filename: "#{book.title.parameterize}.jpg")
+                    filename: "#{book.title.parameterize}.jpg")
 
   if book.save
 

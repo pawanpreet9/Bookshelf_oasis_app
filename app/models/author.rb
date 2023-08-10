@@ -3,6 +3,9 @@
 # Represents an author data in the system.
 class Author < ApplicationRecord
   has_many :books
+
+  # Validations
+  validates :name, presence: true
   def self.ransackable_attributes(_auth_object = nil)
     %w[created_at id name updated_at]
   end

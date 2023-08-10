@@ -9,12 +9,14 @@ ruby '3.1.2'
 gem 'rails', '~> 7.0.5'
 
 gem 'activeadmin'
+gem 'bootstrap'
 gem 'faker'
 gem 'kaminari'
 gem 'sassc'
 
 gem 'activestorage'
 
+gem 'breadcrumbs_on_rails'
 gem 'devise'
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]

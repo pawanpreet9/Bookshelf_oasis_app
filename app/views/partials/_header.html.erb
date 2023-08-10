@@ -1,0 +1,25 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+
+      <li><%= link_to 'Home', root_path %></li>
+      <li><%= link_to 'About', about_path %></li>
+      <li><%= link_to 'Books', books_path %></li>
+      <li><%= link_to 'Contact', contact_path %></li>
+       <li><%= link_to 'Shopping Cart', shopping_cart_path %></li>
+       <% if customer_signed_in? %>
+       <li><%= link_to 'Profile', customer_profile_path %></li>
+      <li><%= link_to 'Logout', destroy_customer_session_path, method: :delete %></li>
+    <% else %>
+      <li><%= link_to 'Login', new_customer_session_path %></li>
+      <li><%= link_to 'Sign Up', new_customer_registration_path %></li>
+    <% end %>
+       <li><%= link_to 'Admin', admin_root_path %></li>
+
+      </ul>
+    </div>
+  </div>
+</nav>

@@ -7,6 +7,13 @@ class Customer < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable
   has_many :orders
+
+  # Validation
+  validates :email, :encrypted_password, :province_id, presence: true
+  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :encrypted_password, length: { minimum: 2 }
+  validates :province_id, numericality: { only_integer: true }
+
   def guest_customer?
     !persisted?
   end

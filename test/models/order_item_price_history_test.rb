@@ -2,7 +2,7 @@
 
 require 'test_helper'
 
-class TaxRateHistoryTest < ActiveSupport::TestCase
+class OrderItemPriceHistoryTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

@@ -1,28 +1,32 @@
 <!-- app/views/orders/_invoice.html.erb -->
 <h1>Invoice</h1>
 <p><strong>Order ID:</strong> <%= @order.id %></p>
-
-<p><strong>Address:</strong> <%= @order.customer.address %></p>
-<p><strong>City:</strong> <%= @order.customer.city %></p>
-<p><strong>Province:</strong> <%= @order.province.name %></p>
-<p><strong>Postal Code:</strong> <%= @order.customer.postal_code %></p>
+<p><strong>Address:</strong> <%= @order.customer.address.present? ? @order.customer.address : 'Not Available' %></p>
+<p><strong>City:</strong> <%= @order.customer.city.present? ? @order.customer.city : 'Not Available' %></p>
+<p><strong>Province:</strong> <%= @order.province.name.present? ? @order.province.name : 'Not Available' %></p>
+<p><strong>Postal Code:</strong> <%= @order.customer.postal_code.present? ? @order.customer.postal_code : 'Not Available' %></p>
   <h2>Books</h2>
   <ul>
     <% @order.order_items.each do |order_item| %>
       <li>
         <%= order_item.book.title %>
-        - <%= number_to_currency(order_item.book.price) %>
+        - <%= number_to_currency(order_item.historical_book_price) %>
         x <%= order_item.quantity %>
       </li>
       <% end %>
       </ul>
 <% if @order.customer.present? && @order.province.present? %>
-  <p><strong>GST Rate:</strong> <%= @order.province.gst_rate %>%</p>
-  <p><strong>PST Rate:</strong> <%= @order.province.pst_rate %>%</p>
-  <p><strong>HST Rate:</strong> <%= @order.province.hst_rate %>%</p>
-  <p><strong>Subtotal:</strong> <%= number_to_currency(@order.subtotal) %></p>
-<p><strong>Total Taxes:</strong> <%= number_to_currency(@order.total_taxes) %></p>
-  <p><strong>Total:</strong> <%= number_to_currency(@order.total_price) %></p>
+  <% subtotal = @order.order_items.map(&:subtotal).sum %>
+  <p><strong>Subtotal:</strong> <%= number_to_currency(subtotal) %></p>
+  <p><strong>GST Rate:</strong> <%= @order.gst_rate %>%</p>
+  <p><strong>PST Rate:</strong> <%= @order.pst_rate %>%</p>
+  <p><strong>HST Rate:</strong> <%= @order.hst_rate %>%</p>
+
+
+  <% total_taxes = @order.order_items.map(&:total_taxes).sum %>
+  <p><strong>Total Taxes:</strong> <%= number_to_currency(total_taxes) %></p>
+
+  <p><strong>Total:</strong> <%= number_to_currency(@order.total) %></p>
 
 <% else %>
 

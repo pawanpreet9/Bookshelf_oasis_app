@@ -13,7 +13,10 @@
  *= require_tree .
  *= require_self
  */
-
+ @import "bootstrap";
+ body{
+  background-color:#e2edf2;
+ }
 .flash {
   padding: 10px;
   margin-bottom: 10px;
@@ -42,4 +45,5 @@
   background-color: #d9edf7;
   color: #31708f;
 }
+
 
